@@ -8,12 +8,12 @@ on:
     branches: [master]
 
 env:
-  python_version: 3.8.2
+  python_version: 3.11.12
 
 jobs:
   check-version:
     name: 🔍 Check version
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       version: ${{ steps.retrieve-version.outputs.version }}
     steps:
@@ -31,7 +31,7 @@ jobs:
 
   run-tests:
     name: 🧪 Run tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: 🐙 Checkout repository
         uses: actions/checkout@v3
@@ -63,7 +63,7 @@ jobs:
     name: 🎉 Create release
     needs: [check-version, run-tests]
     if: github.event_name == 'push'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
     steps:
@@ -77,7 +77,7 @@ jobs:
     name: 🔔 Send notifications
     needs: [check-version, run-tests, create-release]
     if: github.event_name == 'push' && always()
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: 📝 Retrieve workflow result
         id: retrieve-workflow-result
